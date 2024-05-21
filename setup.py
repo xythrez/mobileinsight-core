@@ -128,6 +128,7 @@ setup(
               'mobile_insight.analyzer',
               'mobile_insight.analyzer.kpi',
               'mobile_insight.monitor',
+              'mobile_insight.monitor.spark',
               'mobile_insight.monitor.dm_collector',
               'mobile_insight.monitor.dm_collector.dm_endec',
               ],
