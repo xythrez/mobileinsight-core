@@ -16,7 +16,8 @@ class SparkSubmonitor(OfflineReplayer):
     Do not use this class directly
     '''
 
-    def __init__(self, analyzer_info):
+    def __init__(self, work_dir, analyzer_info):
+        os.chdir(work_dir)
         Analyzer.reset()
         OfflineReplayer.__init__(self)
         self.analyzers = {}

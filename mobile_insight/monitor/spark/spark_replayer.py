@@ -161,7 +161,8 @@ class SparkReplayer(OfflineReplayer):
 
         # Decode files
         decoded = (logs.rdd.map(lambda x:
-                                SparkDecoder(os.path.basename(x.path),
+                                SparkDecoder(os.getcwd(),
+                                             os.path.basename(x.path),
                                              self._output_path,
                                              self._sampling_rate,
                                              self._type_names,
@@ -178,7 +179,8 @@ class SparkReplayer(OfflineReplayer):
 
         # Partition the data, then launch submonitors and collect results
         results = (self._group_function(decoded).applyInPandas(
-            lambda x: SparkSubmonitor(list(self._analyzer_info.values()))
+            lambda x: SparkSubmonitor(os.getcwd(),
+                                      list(self._analyzer_info.values()))
             .run(x), '_ int, obj map<long, binary>')
                    .drop('_'))
 

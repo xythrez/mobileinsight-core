@@ -25,8 +25,9 @@ class SparkDecoder(Element):
     Do not use this class directly
     '''
 
-    def __init__(self, name, output_dir, sampling_rate, type_names,
-                 skip_decoding):
+    def __init__(self, work_dir, name, output_dir, sampling_rate,
+                 type_names, skip_decoding):
+        os.chdir(work_dir)
         Element.__init__(self)
         DMLogPacket.init({})
 
