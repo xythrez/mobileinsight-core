@@ -92,6 +92,7 @@ class SparkReplayer(OfflineReplayer):
         # immediately.
         # Instead, save the path and create a directory with the files
         # during execution.
+        path = os.path.abspath(path)
         os.makedirs(path, exist_ok=True)
         self._output_path = path
 
