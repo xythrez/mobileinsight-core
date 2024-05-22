@@ -127,9 +127,9 @@ class SparkReplayer(OfflineReplayer):
             self._analyzer_info[analyzer] = (
                 id(analyzer),
                 analyzer.__class__,
-                init_args if init_args is not None else curr[1],
-                collect_func if collect_func is not None else curr[2],
-                export_func if export_func is not None else curr[3]
+                init_args if init_args is not None else curr[2],
+                collect_func if collect_func is not None else curr[3],
+                export_func if export_func is not None else curr[4]
             )
 
     def deregister(self, analyzer):
