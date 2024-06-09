@@ -1,4 +1,5 @@
 import os
+import time
 import dill as pickle
 from threading import Lock
 from pyspark.sql import SparkSession
@@ -236,6 +237,7 @@ class SparkReplayer(OfflineReplayer):
                        .load(self._input_path)))
 
         # Decode files
+        before_decode_time = time.time()
         args = [
             os.getcwd(),
             None,
@@ -260,6 +262,7 @@ class SparkReplayer(OfflineReplayer):
 
         # Force eager evaluation to ensure side-effects occur (save-to-disk)
         decoded.cache().count()
+        after_decode_time = time.time()
 
         # Partition the data, then launch submonitors and collect results
         args = [
@@ -275,3 +278,9 @@ class SparkReplayer(OfflineReplayer):
             self.spark_results[analyzer] = collect_func([
                 pickle.loads(x['result']) for x in results.select('obj.' + str(
                     analyzer_id)).toDF('result').collect()])
+        after_sending_time = time.time()
+        decoding_inter = after_decode_time - before_decode_time
+        sending_inter = after_sending_time - after_decode_time
+        self.log_info('decoding_inter_sum: ' + str(decoding_inter))
+        self.log_info('sending_inter_sum: ' + str(sending_inter))
+        self.log_info("Spark replay is completed.")
