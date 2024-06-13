@@ -261,7 +261,7 @@ class SparkReplayer(OfflineReplayer):
                    .drop('col'))
 
         # Force eager evaluation to ensure side-effects occur (save-to-disk)
-        decoded.cache().count()
+        decoded.cache()
         after_decode_time = time.time()
 
         # Partition the data, then launch submonitors and collect results
